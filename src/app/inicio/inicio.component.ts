@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
+import { AlertasComponent } from '../alertas/alertas.component';
 import { Postagem } from '../model/Postagem';
 import { Tema } from '../model/Tema';
 import { User } from '../model/User';
+import { AlertasService } from '../service/alertas.service';
 import { AuthService } from '../service/auth.service';
 import { PostagemService } from '../service/postagem.service';
 import { TemaService } from '../service/tema.service';
@@ -31,14 +33,16 @@ export class InicioComponent implements OnInit {
     private postagemService: PostagemService,
     private temaService: TemaService,
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private alertas: AlertasService
+
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
     
     if(environment.token == ''){
-      alert('Sua seção expirou, Faça o login novamente')
+     this.alertas.showAlertInfo('Sua seção expirou, Faça o login novamente')
       this.router.navigate(['/entrar'])
     }
 
@@ -84,7 +88,7 @@ export class InicioComponent implements OnInit {
 
     this.postagemService.postPostagem(this.postagem).subscribe((resp: Postagem)=>{
       this.postagem = resp
-      alert('Postagem realizada com sucesso!')
+      this.alertas.showAlertSucess('Postagem realizada com sucesso!')
       this.postagem = new Postagem()
       this.getAllPostagens()
     })

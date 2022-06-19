@@ -11,8 +11,22 @@ export class AlertasService {
     private bsModalService: BsModalService
   ) { }
 
-  private showAlert(message: string, type: String){
+  private showAlert(message: string, tipo: String){
     const bsModalRef: BsModalRef = this.bsModalService.show(AlertasComponent)
-    bsModalRef.content.type = type
+    bsModalRef.content.type = tipo
+    bsModalRef.content.message = message
   }
+
+  showAlertDanger(message: string){
+    this.showAlert(message, 'danger')
+  }
+
+  showAlertSucess(message: string){
+    this.showAlert(message, 'sucess')
+  }
+
+  showAlertInfo(message: string){
+    this.showAlert(message, 'info')
+  }
+
 }
